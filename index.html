@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raid Guide Library — Destiny 2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg:       #07090f;
+    --bg2:      #0d1018;
+    --bg3:      #111520;
+    --border:   #1a2235;
+    --accent:   #4fc3f7;
+    --gold:     #ffd54f;
+    --purple:   #7c4dbb;
+    --purple2:  #9c6fef;
+    --danger:   #ef5350;
+    --success:  #66bb6a;
+    --text:     #dce8f5;
+    --text2:    #7a99bb;
+    --text3:    #3a5570;
+    --exotic:   #ceae33;
+    --exotic-bg:#2a2008;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 80px 40px 60px;
+    text-align: center;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(79,195,247,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 100%, rgba(124,77,187,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(255,213,79,0.05) 0%, transparent 50%),
+      linear-gradient(180deg, #050810 0%, #07090f 100%);
+  }
+
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(79,195,247,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,195,247,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-content { position: relative; z-index: 1; }
+
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+
+  .hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(44px, 8vw, 96px);
+    font-weight: 800;
+    line-height: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    margin-bottom: 6px;
+    text-shadow: 0 0 80px rgba(79,195,247,0.15);
+  }
+
+  .hero-title span {
+    display: block;
+    font-size: clamp(20px, 3vw, 38px);
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--text2);
+  }
+
+  .hero-divider {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    margin: 24px auto;
+    opacity: 0.5;
+  }
+
+  .hero-lore {
+    font-size: 15px;
+    font-style: italic;
+    color: var(--text2);
+    max-width: 620px;
+    margin: 0 auto 28px;
+    line-height: 1.7;
+    opacity: 0.75;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+
+  .hero-meta-item span {
+    color: var(--gold);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+
+  /* ── PAGE BODY ── */
+  .page { max-width: 1200px; margin: 0 auto; padding: 56px 24px 80px; }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title::before { content: '◆'; font-size: 10px; color: var(--accent); opacity: 0.6; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── RAID GRID ── */
+  .raid-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 22px;
+  }
+
+  .raid-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .raid-card.live:hover {
+    transform: translateY(-4px);
+    border-color: var(--card-accent, var(--accent));
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px var(--card-accent, var(--accent));
+  }
+
+  .raid-card.locked {
+    cursor: default;
+    opacity: 0.55;
+    filter: saturate(0.5);
+  }
+
+  /* ── THUMBNAIL ART (pure CSS) ── */
+  .raid-thumb {
+    position: relative;
+    height: 150px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .raid-thumb::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 20%, var(--thumb-glow, rgba(79,195,247,0.35)) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 90%, var(--thumb-glow2, rgba(124,77,187,0.3)) 0%, transparent 55%),
+      linear-gradient(135deg, var(--thumb-a, #0d1830) 0%, var(--thumb-b, #060810) 100%);
+  }
+
+  .raid-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 28px 28px;
+    -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 30%, transparent 80%);
+            mask-image: radial-gradient(ellipse at 50% 50%, #000 30%, transparent 80%);
+  }
+
+  .raid-thumb-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 72px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--thumb-glyph, rgba(255,255,255,0.12));
+    text-shadow: 0 0 40px var(--thumb-glow, rgba(79,195,247,0.4));
+    z-index: 1;
+    -webkit-user-select: none;
+            user-select: none;
+  }
+
+  .raid-num {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--card-accent, var(--accent));
+    z-index: 2;
+    opacity: 0.9;
+  }
+
+  .raid-badge {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    z-index: 2;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: 4px;
+  }
+  .raid-badge.soon {
+    background: rgba(122,153,187,0.12);
+    border: 1px solid var(--text3);
+    color: var(--text2);
+  }
+  .raid-badge.ready {
+    background: rgba(102,187,106,0.1);
+    border: 1px solid rgba(102,187,106,0.4);
+    color: var(--success);
+  }
+
+  /* ── CARD BODY ── */
+  .raid-body { padding: 18px 20px 20px; display: flex; flex-direction: column; flex: 1; }
+
+  .raid-expansion {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--card-accent, var(--accent));
+    opacity: 0.85;
+    margin-bottom: 5px;
+  }
+
+  .raid-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .raid-blurb {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    flex: 1;
+  }
+
+  .raid-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 16px;
+  }
+
+  .raid-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text2);
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 9px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .raid-tag b { color: var(--text); font-weight: 700; }
+  .raid-tag .ico { opacity: 0.7; }
+
+  .raid-cta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .raid-card.live .raid-cta { color: var(--card-accent, var(--accent)); }
+  .raid-card.locked .raid-cta { color: var(--text3); }
+
+  .raid-cta .arrow { transition: transform 0.18s ease; }
+  .raid-card.live:hover .raid-cta .arrow { transform: translateX(4px); }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 40px 24px 60px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+  .footer-text {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.8;
+  }
+  .footer-text b { color: var(--text2); }
+
+  @media (max-width: 560px) {
+    .raid-grid { grid-template-columns: 1fr; }
+    .hero { min-height: 340px; padding: 60px 24px 40px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Destiny 2 · Field Manual</div>
+      <h1 class="hero-title">Raid Guide<span>Library</span></h1>
+      <div class="hero-divider"></div>
+      <p class="hero-lore">
+        Ten vaults sealed against the unworthy. Mechanics, loot, and armor sets —
+        documented encounter by encounter. Pick a raid and prepare your fireteam.
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><span>10</span> Raids</div>
+        <div class="hero-meta-item"><span>7</span> Guides Live</div>
+        <div class="hero-meta-item"><span>2018–2025</span> Era</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── RAID GRID ── -->
+  <main class="page">
+    <div class="section-title">All Raids · Release Order</div>
+    <div class="raid-grid">
+
+      <!-- 01 LAST WISH -->
+      <a class="raid-card live" href="https://soup-spoon.github.io/Last-Wish-Raid-Guide/"
+         style="--card-accent:#b39ddb; --thumb-glow:rgba(179,157,219,0.4); --thumb-glow2:rgba(124,77,187,0.35); --thumb-a:#1a0f26; --thumb-b:#080510; --thumb-glyph:rgba(179,157,219,0.16);">
+        <div class="raid-thumb">
+          <div class="raid-num">01</div>
+          <div class="raid-badge ready">Live</div>
+          <div class="raid-thumb-icon">✦</div>
+        </div>
+        <div class="raid-body">
+          <div class="raid-expansion">Forsaken · Sept 2018</div>
+          <div class="raid-name">Last Wish</div>
+          <p class="raid-blurb">A wish granted by the Ahamkara Riven, kept caged in the heart of the Dreaming City — and the curse that came with it.</p>
+          <div class="raid-tags">
+            <div class="raid-tag"><span class="ico">📍</span> Dreaming City</div>
+            <div class="raid-tag"><span class="ico">⚔</span> <b>5</b> Encounters</div>
+            <div class="raid-tag"><span class="ico">🏆</span> One Thousand Voices</div>
+          </div>
+          <div class="raid-cta">Open Guide <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <!-- 02 GARDEN OF SALVATION -->
+      <a class="raid-card live" href="https://soup-spoon.github.io/Garden-of-Salvation-Raid-Guide/"
+         style="--card-accent:#81c784; --thumb-glow:rgba(129,199,132,0.4); --thumb-glow2:rgba(56,142,60,0.3); --thumb-a:#0c1f12; --thumb-b:#060c08; --thumb-glyph:rgba(129,199,132,0.16);">
+        <div class="raid-thumb">
+          <div class="raid-num">02</div>
+          <div class="raid-badge ready">Live</div>
+          <div class="raid-thumb-icon">❂</div>
+        </div>
+        <div class="raid-body">
+          <div class="raid-expansion">Shadowkeep · Oct 2019</div>
+          <div class="raid-name">Garden of Salvation</div>
+          <p class="raid-blurb">Deep in the Black Garden, the Sol Divisive tend a Vex mind that has touched the Light itself. Tether the conflux, or be unmade.</p>
+          <div class="raid-tags">
+            <div class="raid-tag"><span class="ico">📍</span> Black Garden</div>
+            <div class="raid-tag"><span class="ico">⚔</span> <b>4</b> Encounters</div>
+            <div class="raid-tag"><span class="ico">🏆</span> Divinity</div>
+          </div>
+          <div class="raid-cta">Open Guide <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <!-- 03 DEEP STONE CRYPT -->
+      <a class="raid-card live" href="https://soup-spoon.github.io/DSC-Raid-Guide/"
+         style="--card-accent:#4fc3f7; --thumb-glow:rgba(79,195,247,0.4); --thumb-glow2:rgba(124,77,187,0.3); --thumb-a:#0a1626; --thumb-b:#05080f; --thumb-glyph:rgba(79,195,247,0.16);">
+        <div class="raid-thumb">
+          <div class="raid-num">03</div>
+          <div class="raid-badge ready">Live</div>
+          <div class="raid-thumb-icon">❄</div>
+        </div>
+        <div class="raid-body">
+          <div class="raid-expansion">Beyond Light · Nov 2020</div>
+          <div class="raid-name">Deep Stone Crypt</div>
+          <p class="raid-blurb">Buried beneath the ice of Europa lies the Clovis Bray facility where Exos were born — and Eramis means to claim its power.</p>
+          <div class="raid-tags">
+            <div class="raid-tag"><span class="ico">📍</span> Europa</div>
+            <div class="raid-tag"><span class="ico">⚔</span> <b>4</b> Encounters</div>
+            <div class="raid-tag"><span class="ico">🏆</span> Eyes of Tomorrow</div>
+          </div>
+          <div class="raid-cta">Open Guide <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <!-- 04 VAULT OF GLASS -->
+      <a class="raid-card live" href="https://soup-spoon.github.io/Vault-of-Glass-Raid-Guide/"
+         style="--card-accent:#80deea; --thumb-glow:rgba(128,222,234,0.4); --thumb-glow2:rgba(38,166,154,0.3); --thumb-a:#0a2024; --thumb-b:#05090c; --thumb-glyph:rgba(128,222,234,0.16);">
+        <div class="raid-thumb">
+          <div class="raid-num">04</div>
+          <div class="raid-badge ready">Live</div>
+          <div class="raid-thumb-icon">◇</div>
+        </div>
+        <div class="raid-body">
+          <div class="raid-expansion">Reissue · May 2021</div>
+          <div class="raid-name">Vault of Glass</div>
+          <p class="raid-blurb">On Venus, the Vex built a fortress outside of time. Atheon waits at its center, and the past and future are his to command.</p>
+          <div class="raid-tags">
+            <div class="raid-tag"><span class="ico">📍</span> Venus</div>
+            <div class="raid-tag"><span class="ico">⚔</span> <b>4</b> Encounters</div>
+            <div class="raid-tag"><span class="ico">🏆</span> Vex Mythoclast</div>
+          </div>
+          <div class="raid-cta">Open Guide <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <!-- 05 VOW OF THE DISCIPLE -->
+      <div class="raid-card locked"
+         style="--card-accent:#a5d6a7; --thumb-glow:rgba(165,214,167,0.4); --thumb-glow2:rgba(67,160,71,0.3); --thumb-a:#0e1f14; --thumb-b:#070d09; --thumb-glyph:rgba(165,214,167,0.16);">
+        <div class="raid-thumb">
+          <div class="raid-num">05</div>
+          <div class="raid-badge soon">Coming Soon</div>
+          <div class="raid-thumb-icon">⬡</div>
+        </div>
+        <div class="raid-body">
+          <div class="raid-expansion">The Witch Queen · Mar 2022</div>
+          <div class="raid-name">Vow of the Disciple</div>
+          <p class="raid-blurb">Within Savathûn's Throne World lies the pyramid of Rhulk, first Disciple of the Witness. Read the glyphs, or join the drowned.</p>
+          <div class="raid-tags">
+            <div class="raid-tag"><span class="ico">📍</span> Throne World</div>
+            <div class="raid-tag"><span class="ico">⚔</span> <b>4</b> Encounters</div>
+            <div class="raid-tag"><span class="ico">🏆</span> Collective Obligation</div>
+          </div>
+          <div class="raid-cta">In Progress <span class="arrow">🔒</span></div>
+        </div>
+      </div>
+
+      <!-- 06 KING'S FALL -->
+      <a class="raid-card live" href="https://soup-spoon.github.io/Kings-Fall-Raid-Guide/"
+         style="--card-accent:#ce93d8; --thumb-glow:rgba(206,147,216,0.4); --thumb-glow2:rgba(106,27,154,0.3); --thumb-a:#1a0f24; --thumb-b:#08050e; --thumb-glyph:rgba(206,147,216,0.16);">
+        <div class="raid-thumb">
+          <div class="raid-num">06</div>
+          <div class="raid-badge ready">Live</div>
+          <div class="raid-thumb-icon">☿</div>
+        </div>
+        <div class="raid-body">
+          <div class="raid-expansion">Reissue · Aug 2022</div>
+          <div class="raid-name">King's Fall</div>
+          <p class="raid-blurb">Aboard the Dreadnaught, Oryx the Taken King awaits his reckoning. Take his strength, wield it against him, and end the line of kings.</p>
+          <div class="raid-tags">
+            <div class="raid-tag"><span class="ico">📍</span> Dreadnaught</div>
+            <div class="raid-tag"><span class="ico">⚔</span> <b>5</b> Encounters</div>
+            <div class="raid-tag"><span class="ico">🏆</span> Touch of Malice</div>
+          </div>
+          <div class="raid-cta">Open Guide <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <!-- 07 ROOT OF NIGHTMARES -->
+      <a class="raid-card live" href="https://soup-spoon.github.io/Root-of-Nightmares-Raid-Guide/"
+         style="--card-accent:#ef9a9a; --thumb-glow:rgba(239,154,154,0.4); --thumb-glow2:rgba(198,40,40,0.3); --thumb-a:#240f12; --thumb-b:#0e0708; --thumb-glyph:rgba(239,154,154,0.16);">
+        <div class="raid-thumb">
+          <div class="raid-num">07</div>
+          <div class="raid-badge ready">Live</div>
+          <div class="raid-thumb-icon">❦</div>
+        </div>
+        <div class="raid-body">
+          <div class="raid-expansion">Lightfall · Mar 2023</div>
+          <div class="raid-name">Root of Nightmares</div>
+          <p class="raid-blurb">Nezarec, the Final God of Pain, stirs within a Pyramid grown through with roots of Light and Dark. Balance the two, or wake him whole.</p>
+          <div class="raid-tags">
+            <div class="raid-tag"><span class="ico">📍</span> Essence</div>
+            <div class="raid-tag"><span class="ico">⚔</span> <b>4</b> Encounters</div>
+            <div class="raid-tag"><span class="ico">🏆</span> Conditional Finality</div>
+          </div>
+          <div class="raid-cta">Open Guide <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <!-- 08 CROTA'S END -->
+      <a class="raid-card live" href="https://soup-spoon.github.io/Crotas-End-Raid-Guide/"
+         style="--card-accent:#a1887f; --thumb-glow:rgba(161,136,127,0.4); --thumb-glow2:rgba(76,175,80,0.25); --thumb-a:#1a1410; --thumb-b:#0a0706; --thumb-glyph:rgba(161,136,127,0.18);">
+        <div class="raid-thumb">
+          <div class="raid-num">08</div>
+          <div class="raid-badge ready">Live</div>
+          <div class="raid-thumb-icon">☩</div>
+        </div>
+        <div class="raid-body">
+          <div class="raid-expansion">Reissue · Sept 2023</div>
+          <div class="raid-name">Crota's End</div>
+          <p class="raid-blurb">Descend into the Hellmouth where Crota, Son of Oryx, reaps the souls of the fallen. Claim his sword and end the slaughter.</p>
+          <div class="raid-tags">
+            <div class="raid-tag"><span class="ico">📍</span> Hellmouth, Moon</div>
+            <div class="raid-tag"><span class="ico">⚔</span> <b>4</b> Encounters</div>
+            <div class="raid-tag"><span class="ico">🏆</span> Necrochasm</div>
+          </div>
+          <div class="raid-cta">Open Guide <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <!-- 09 SALVATION'S EDGE -->
+      <div class="raid-card locked"
+         style="--card-accent:#fff176; --thumb-glow:rgba(255,241,118,0.35); --thumb-glow2:rgba(255,179,0,0.28); --thumb-a:#1f1c0c; --thumb-b:#0c0a05; --thumb-glyph:rgba(255,241,118,0.16);">
+        <div class="raid-thumb">
+          <div class="raid-num">09</div>
+          <div class="raid-badge soon">Coming Soon</div>
+          <div class="raid-thumb-icon">△</div>
+        </div>
+        <div class="raid-body">
+          <div class="raid-expansion">The Final Shape · Jun 2024</div>
+          <div class="raid-name">Salvation's Edge</div>
+          <p class="raid-blurb">At the threshold of the Witness's design within the Pale Heart, reality bends to its will. Cross the verses and unmake the final shape.</p>
+          <div class="raid-tags">
+            <div class="raid-tag"><span class="ico">📍</span> The Pale Heart</div>
+            <div class="raid-tag"><span class="ico">⚔</span> <b>4</b> Encounters</div>
+            <div class="raid-tag"><span class="ico">🏆</span> Euphony</div>
+          </div>
+          <div class="raid-cta">In Progress <span class="arrow">🔒</span></div>
+        </div>
+      </div>
+
+      <!-- 10 THE DESERT PERPETUAL -->
+      <div class="raid-card locked"
+         style="--card-accent:#ffb74d; --thumb-glow:rgba(255,183,77,0.38); --thumb-glow2:rgba(230,81,0,0.3); --thumb-a:#241608; --thumb-b:#0e0904; --thumb-glyph:rgba(255,183,77,0.18);">
+        <div class="raid-thumb">
+          <div class="raid-num">10</div>
+          <div class="raid-badge soon">Coming Soon</div>
+          <div class="raid-thumb-icon">⧖</div>
+        </div>
+        <div class="raid-body">
+          <div class="raid-expansion">The Edge of Fate · 2025</div>
+          <div class="raid-name">The Desert Perpetual</div>
+          <p class="raid-blurb">On Kepler, time itself is the enemy. A perpetual machine bends the hours against your fireteam — outlast the loop, or be erased by it.</p>
+          <div class="raid-tags">
+            <div class="raid-tag"><span class="ico">📍</span> Kepler</div>
+            <div class="raid-tag"><span class="ico">⚔</span> Encounters TBD</div>
+            <div class="raid-tag"><span class="ico">🏆</span> Exotic TBD</div>
+          </div>
+          <div class="raid-cta">In Progress <span class="arrow">🔒</span></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">
+      Destiny 2 Raid Guide Library · <b>soup-spoon</b><br>
+      Guides updated as encounters are documented · More coming soon
+    </p>
+  </footer>
+
+</body>
+</html>
